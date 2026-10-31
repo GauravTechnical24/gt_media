@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gt_media/gt_media.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -16,6 +17,7 @@ void main() {
       expect(config.maxVideoDurationSeconds, 0);
       expect(config.cropStyle, CropStyle.rectangle);
       expect(config.allowMultiple, false);
+      expect(config.validateBeforeProcessing, true);
     });
 
     test('custom values are applied', () {
@@ -25,6 +27,8 @@ void main() {
         maxImageSizeKB: 500,
         imageQuality: 70,
         cropStyle: CropStyle.circle,
+        maxVideoDurationSeconds: 120,
+        allowMultiple: true,
       );
 
       expect(config.enableCropping, false);
@@ -32,6 +36,25 @@ void main() {
       expect(config.maxImageSizeKB, 500);
       expect(config.imageQuality, 70);
       expect(config.cropStyle, CropStyle.circle);
+      expect(config.maxVideoDurationSeconds, 120);
+      expect(config.allowMultiple, true);
+    });
+  });
+
+  group('MediaPickerResult', () {
+    test('calculates fileSizeKB and fileSizeMB accurately', () {
+      final result = MediaPickerResult(
+        file: File('/tmp/sample.jpg'),
+        mediaType: MediaType.image,
+        fileSizeBytes: 2097152, // 2 MB
+        fileName: 'sample.jpg',
+      );
+
+      expect(result.fileName, 'sample.jpg');
+      expect(result.mediaType, MediaType.image);
+      expect(result.fileSizeBytes, 2097152);
+      expect(result.fileSizeKB, 2048.0);
+      expect(result.fileSizeMB, 2.0);
     });
   });
 
@@ -45,14 +68,55 @@ void main() {
       expect(error.toString(), contains('fileTooLarge'));
       expect(error.toString(), contains('File exceeds maximum size'));
     });
+
+    test('captures all error codes accurately', () {
+      expect(
+        MediaPickerErrorCode.values,
+        containsAll([
+          MediaPickerErrorCode.permissionDenied,
+          MediaPickerErrorCode.fileTooLarge,
+          MediaPickerErrorCode.unsupportedFormat,
+          MediaPickerErrorCode.processingFailed,
+          MediaPickerErrorCode.userCancelled,
+          MediaPickerErrorCode.durationExceeded,
+          MediaPickerErrorCode.invalidFile,
+          MediaPickerErrorCode.unknown,
+        ]),
+      );
+    });
   });
 
   group('MediaType', () {
     test('enum values exist', () {
       expect(MediaType.values.length, 3);
-      expect(MediaType.values.contains(MediaType.image), true);
-      expect(MediaType.values.contains(MediaType.video), true);
-      expect(MediaType.values.contains(MediaType.document), true);
+      expect(MediaType.values, contains(MediaType.image));
+      expect(MediaType.values, contains(MediaType.video));
+      expect(MediaType.values, contains(MediaType.document));
+    });
+  });
+
+  group('MediaPickerUtility', () {
+    test('singleton pattern returns same instance', () {
+      final instance1 = MediaPickerUtility();
+      final instance2 = MediaPickerUtility();
+
+      expect(identical(instance1, instance2), isTrue);
+    });
+  });
+
+  group('VideoPlayerUtility Widget', () {
+    test('constructor assigns required and default properties correctly', () {
+      const player = VideoPlayerUtility(
+        videoPath: '/dummy/video.mp4',
+        isNetwork: false,
+        autoPlay: true,
+        looping: true,
+      );
+
+      expect(player.videoPath, '/dummy/video.mp4');
+      expect(player.isNetwork, isFalse);
+      expect(player.autoPlay, isTrue);
+      expect(player.looping, isTrue);
     });
   });
 }

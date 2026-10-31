@@ -26,6 +26,7 @@ class MediaPickerError {
   final String message;
   final dynamic originalError;
 
+  /// Creates a [MediaPickerError] instance.
   MediaPickerError({
     required this.code,
     required this.message,
@@ -75,7 +76,7 @@ class MediaPickerConfig {
   /// Custom title for the cropper toolbar
   final String? cropperTitle;
 
-  /// Allowed file extensions for document picking (e.g. ['pdf', 'doc'])
+  /// Allowed file extensions for document picking (e.g. `['pdf', 'doc']`)
   final List<String>? allowedExtensions;
 
   /// Whether to allow multiple file selection for documents
@@ -84,10 +85,10 @@ class MediaPickerConfig {
   /// Maximum document size in MB (default: 10 MB)
   final int maxDocumentSizeMB;
 
-  /// Allowed image formats (e.g. ['jpg', 'jpeg', 'png'])
+  /// Allowed image formats (e.g. `['jpg', 'jpeg', 'png']`)
   final List<String> allowedImageFormats;
 
-  /// Allowed video formats (e.g. ['mp4', 'mov'])
+  /// Allowed video formats (e.g. `['mp4', 'mov']`)
   final List<String> allowedVideoFormats;
 
   /// Validate files before processing
@@ -102,6 +103,8 @@ class MediaPickerConfig {
   /// Log callback for debugging/analytics
   final void Function(String message)? onLog;
 
+  /// Creates a [MediaPickerConfig] instance with customizable picking, cropping,
+  /// compression, and validation settings.
   const MediaPickerConfig({
     this.enableCropping = true,
     this.enableTrimming = true,
@@ -141,6 +144,7 @@ class MediaPickerResult {
   final int fileSizeBytes;
   final String fileName;
 
+  /// Creates a [MediaPickerResult] instance.
   MediaPickerResult({
     required this.file,
     required this.mediaType,
@@ -178,10 +182,8 @@ class MediaPickerUtility {
       }
 
       // Check file extension
-      final extension = path
-          .extension(file.path)
-          .toLowerCase()
-          .replaceAll('.', '');
+      final extension =
+          path.extension(file.path).toLowerCase().replaceAll('.', '');
       if (!config.allowedImageFormats.contains(extension)) {
         return MediaPickerError(
           code: MediaPickerErrorCode.unsupportedFormat,
@@ -227,10 +229,8 @@ class MediaPickerUtility {
       }
 
       // Check file extension
-      final extension = path
-          .extension(file.path)
-          .toLowerCase()
-          .replaceAll('.', '');
+      final extension =
+          path.extension(file.path).toLowerCase().replaceAll('.', '');
       if (!config.allowedVideoFormats.contains(extension)) {
         return MediaPickerError(
           code: MediaPickerErrorCode.unsupportedFormat,
@@ -275,10 +275,8 @@ class MediaPickerUtility {
       // Check file extension if allowed extensions are specified
       if (config.allowedExtensions != null &&
           config.allowedExtensions!.isNotEmpty) {
-        final extension = path
-            .extension(file.path)
-            .toLowerCase()
-            .replaceAll('.', '');
+        final extension =
+            path.extension(file.path).toLowerCase().replaceAll('.', '');
         if (!config.allowedExtensions!.contains(extension)) {
           return MediaPickerError(
             code: MediaPickerErrorCode.unsupportedFormat,
@@ -327,9 +325,8 @@ class MediaPickerUtility {
       final dir = await getTemporaryDirectory();
       if (!await dir.exists()) return;
 
-      final cutoffTime = olderThan != null
-          ? DateTime.now().subtract(olderThan)
-          : null;
+      final cutoffTime =
+          olderThan != null ? DateTime.now().subtract(olderThan) : null;
 
       final entities = dir.listSync(recursive: true);
       int deletedCount = 0;
@@ -962,11 +959,11 @@ class _VideoTrimmerScreenState extends State<VideoTrimmerScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final bool playbackState = await widget.trimmer
-                        .videoPlaybackControl(
-                          startValue: _startValue,
-                          endValue: _endValue,
-                        );
+                    final bool playbackState =
+                        await widget.trimmer.videoPlaybackControl(
+                      startValue: _startValue,
+                      endValue: _endValue,
+                    );
                     setState(() {
                       _isPlaying = playbackState;
                     });

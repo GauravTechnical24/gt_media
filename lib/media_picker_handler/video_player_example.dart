@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gt_media/media_picker_handler/video_player_utility.dart';
 
+/// Example screen demonstrating [VideoPlayerUtility] integration.
 class VideoPlayerScreens extends StatelessWidget {
+  /// Creates a [VideoPlayerScreens] widget.
   const VideoPlayerScreens({super.key});
 
   @override

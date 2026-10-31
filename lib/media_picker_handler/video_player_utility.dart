@@ -8,11 +8,19 @@ import 'package:video_player/video_player.dart';
 /// Power-House Video Player Utility
 /// Optimized for memory, performance, and UI/UX.
 class VideoPlayerUtility extends StatefulWidget {
+  /// Local file path or remote HTTP/HTTPS URL of the video.
   final String videoPath;
+
+  /// Whether the video is loaded from network URL (true) or local filesystem (false).
   final bool isNetwork;
+
+  /// Whether playback starts automatically once initialized.
   final bool autoPlay;
+
+  /// Whether the video should loop when it reaches the end.
   final bool looping;
 
+  /// Creates a [VideoPlayerUtility] widget.
   const VideoPlayerUtility({
     super.key,
     required this.videoPath,
@@ -43,7 +51,7 @@ class _VideoPlayerUtilityState extends State<VideoPlayerUtility>
   Timer? _seekTimer; // For long press continuous seek
   Timer? _seekFeedbackTimer; // For hiding the text indicator
   Timer?
-  _bufferingHideTimer; // New timer to suppress buffering spinner after seek
+      _bufferingHideTimer; // New timer to suppress buffering spinner after seek
 
   // Playback State
   Duration _totalDuration = Duration.zero;
@@ -163,8 +171,7 @@ class _VideoPlayerUtilityState extends State<VideoPlayerUtility>
     if (_isDisposed || _controller == null || !mounted) return;
 
     final val = _controller!.value;
-    final hasChanges =
-        val.isPlaying != _isPlaying ||
+    final hasChanges = val.isPlaying != _isPlaying ||
         val.isBuffering != _isBuffering ||
         val.buffered != _buffered ||
         val.duration != _totalDuration;
@@ -593,13 +600,13 @@ class _VideoPlayerUtilityState extends State<VideoPlayerUtility>
                 elevation: 4,
               ),
               overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
-              overlayColor: Colors.red.withOpacity(0.2),
+              overlayColor: Colors.red.withValues(alpha: 0.2),
             ),
             child: Slider(
               value: currentPosition.inMilliseconds.toDouble().clamp(
-                0.0,
-                _totalDuration.inMilliseconds.toDouble(),
-              ),
+                    0.0,
+                    _totalDuration.inMilliseconds.toDouble(),
+                  ),
               min: 0.0,
               max: _totalDuration.inMilliseconds.toDouble() > 0
                   ? _totalDuration.inMilliseconds.toDouble()

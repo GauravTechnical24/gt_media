@@ -1,8 +1,8 @@
 name: gt_media
-description: A comprehensive Flutter media utility package providing image picking, cropping, compression, video trimming, document picking, and a feature-rich video player with gesture controls.
-version: 1.0.0
-homepage: https://github.com/GauravTechnical24/gt_media.git
-repository: https://github.com/GauravTechnical24/gt_media.git
+description: A comprehensive Flutter media package for image picking, cropping, compression, video trimming, document picking, and gesture-controlled video playback.
+version: 1.1.0
+homepage: https://github.com/GauravTechnical24/gt_media
+repository: https://github.com/GauravTechnical24/gt_media
 issue_tracker: https://github.com/GauravTechnical24/gt_media/issues
 
 topics:
@@ -13,23 +13,23 @@ topics:
   - compression
 
 environment:
-  sdk: ^3.9.2
-  flutter: ">=3.0.0"
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.0"
 
 dependencies:
   flutter:
     sdk: flutter
   
   image_picker: ^1.2.1
-  image_cropper: ^11.0.0
+  image_cropper: '>=11.0.0 <14.0.0'
   flutter_image_compress: ^2.4.0
   video_trimmer: ^5.0.0
   video_player: ^2.9.2
-  file_picker: ^10.3.8
+  file_picker: '>=10.3.8 <14.0.0'
   path_provider: ^2.1.5
   path: ^1.9.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0

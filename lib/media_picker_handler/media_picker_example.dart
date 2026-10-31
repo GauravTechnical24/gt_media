@@ -3,7 +3,9 @@ import 'package:gt_media/media_picker_handler/video_player_utility.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'media_picker_utility.dart';
 
+/// Comprehensive demo widget showcasing GT Media picker capabilities.
 class MediaPickerDemo extends StatefulWidget {
+  /// Creates a [MediaPickerDemo] instance.
   const MediaPickerDemo({super.key});
 
   @override
@@ -107,6 +109,7 @@ class _MediaPickerDemoState extends State<MediaPickerDemo> {
       config: MediaPickerConfig(),
     );
     if (result != null) {
+      if (!mounted) return;
       setState(() {
         _selectedMedia = result;
       });
@@ -224,6 +227,7 @@ class _MediaPickerDemoState extends State<MediaPickerDemo> {
     );
 
     if (results.isNotEmpty) {
+      if (!mounted) return;
       setState(() {
         _selectedMedia = null;
         _multiSelectedMedia = results;
@@ -264,6 +268,7 @@ class _MediaPickerDemoState extends State<MediaPickerDemo> {
     );
 
     if (results.isNotEmpty) {
+      if (!mounted) return;
       setState(() {
         _selectedMedia = null;
         _multiSelectedMedia = results;
